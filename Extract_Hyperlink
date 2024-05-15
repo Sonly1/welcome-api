@@ -1,0 +1,23 @@
+function extractHyperlinks() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var range = sheet.getRange("A1:A"); // CHANGE YOUR CELLS VALUES, depending where you have your hyperlink 
+  var values = range.getDisplayValues(); 
+  
+  var output = [];
+  for (var i = 0; i < values.length; i++) {
+    var richTextValue = range.getCell(i + 1, 1).getRichTextValue();
+    var runs = richTextValue.getRuns();
+    var url = '';
+    for (var j = 0; j < runs.length; j++) {
+      var run = runs[j];
+      var linkUrl = run.getLinkUrl();
+      if (linkUrl) {
+        url = linkUrl;
+        break; 
+      }
+    }
+    output.push([url]);
+  }
+
+  sheet.getRange(1, 2, output.length, 1).setValues(output);
+}
