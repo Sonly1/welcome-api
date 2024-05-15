@@ -1,0 +1,75 @@
+const axios = require('axios');
+const fs = require('fs');
+const readline = require('readline');
+const { once } = require('events');
+
+// Base API endpoint
+const baseUrl = 'https://{{endpoint}}/api/jobs';
+
+// Headers for the request
+const headers = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Token xxxxxxxxxxx' // Replace '{{token_key}}' with actual token
+};
+
+// Path to your file
+const filePath = '/users/USERNAME/Documents/FILE/Name_Of_The_File.csv';
+
+// Function to process a batch of users
+async function processBatch(batch) {
+    for (const line of batch) {
+        let [jobId, userId, roleId] = line.split(','); // Assuming CSV format jobId,userId,jobRoleId
+
+        // Form the payload for the API call
+        const payload = {
+            method: "archiveUser",
+            arguments: {
+                jobId: jobId.trim(),
+                userId: userId.trim(),
+                roleId: roleId.trim()
+            }
+        };
+
+        axios.post(baseUrl, payload, { headers: headers })
+        .then(response => {
+            console.log(`Archive request for jobId ${jobId} and userId ${userId} completed successfully.`);
+        })
+        .catch(error => {
+            console.error(`Archive request for jobId ${jobId} and userId ${userId} failed with error:`, error.response || error);
+        });
+    }
+}
+
+// Reading the file and processing in chunks
+async function processFile() {
+    const readInterface = readline.createInterface({
+        input: fs.createReadStream(filePath),
+        output: process.stdout,
+        console: false
+    });
+
+    let batch = [];
+    let batchCount = 0;
+
+    readInterface.on('line', function(line) {
+        batch.push(line);
+        if (batch.length === 15) {
+            readInterface.pause();
+            processBatch(batch).then(() => {
+                batch = [];
+                setTimeout(() => readInterface.resume(), 5000); // 5-second delay between batches
+            });
+        }
+    });
+
+    readInterface.on('close', function() {
+        if (batch.length > 0) {
+            processBatch(batch); // Process the last batch
+        }
+    });
+
+    await once(readInterface, 'close');
+}
+
+processFile();
