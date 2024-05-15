@@ -1,7 +1,7 @@
 # JavaScript Projects
 
 ### Description
-The scripts is meant to facilate manual work not yet provided by the User Interphase. 
+The scripts is meant to facilitate manual work that the UI has not yet provided by the software. 
 
 ### Installation
 Make sure you have Node.js installed on your machine. You can download it from [[Node.js](https://nodejs.org/).](https://nodejs.org/en) 
