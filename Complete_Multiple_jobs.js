@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 
 // Define your base API endpoint
-const baseUrl = 'https://api.us-west-2.parsable.net/api/v3/teams/';
+const baseUrl = 'https://{{endpoint}}/api/v3/teams/';
 
 // Define the teamId
 const teamId = '{{team_ID}}';
@@ -11,7 +11,7 @@ const teamId = '{{team_ID}}';
 // Define the headers for your request
 const headers = {
   'accept': '*/*',
-  'parsable-custom-touchstone': 'test',
+  'parsable-custom-touchstone': 'test', // Give a random name 
   'Authorization': 'Bearer {{auth token}}' // Replace 'xxxxxx' with your token
 };
 
