@@ -3,8 +3,8 @@ const fs = require('fs');
 const readline = require('readline');
 
 // API endpoint and file path setup
-const apiEndpoint = 'https://kbua6l2pwl.execute-api.us-west-2.amazonaws.com/v2/CopyTemplateService';
-const filePath = '/users/ramy.kader/Documents/Template_id.csv';
+const apiEndpoint = 'https://{{endpoint}}/{{version}}/CopyTemplateService';
+const filePath = '/users/Username/Documents/file_name.csv'; //Make sure it's UFT-8 file and no column header 
 
 // Read the CSV and process in chunks
 const readCSVandProcessInBatches = async () => {
@@ -45,12 +45,12 @@ const sendTemplates = async (templateIds) => {
     "include_template_input_triggers": true,
     "include_template_applets": true,
     "include_template_refsheets": true,
-    "src_team_id": "01f00ddc-ce75-4394-b79f-281539850354",
-    "src_auth_token": "xxxxxxxx",
-    "src_api_base": "https://api.us-west-2.parsable.net",
-    "dest_team_id": "7ab36eae-72c4-4907-a9f3-1a1d9879f12e",
-    "dest_auth_token": "xxxxxx",
-    "dest_api_base": "https://api.us-west-2.parsable.net",
+    "src_team_id": "{{source_id}}",
+    "src_auth_token": "{{token_key}}",
+    "src_api_base": "{{source_endpoint_Api}}t",
+    "dest_team_id": "{{target_id}}",
+    "dest_auth_token": "{{token_key}}",
+    "dest_api_base": "{{target_api}}",
     "should_publish_template": true,
     "should_copy_attributes": true,
     "include_metadata_values": true
