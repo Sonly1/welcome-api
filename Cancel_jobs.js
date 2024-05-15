@@ -3,7 +3,7 @@ const fs = require('fs');
 const readline = require('readline');
 
 // Define your base API endpoint
-const baseUrl = 'https://api.us-west-2.parsable.net/api/v3/teams/';
+const baseUrl = 'https://{{endpoint}}/api/v3/teams/'; // MOdify the gateway API call endpoint based on the server's location 
 
 // Define the teamId
 const teamId = '{{team_id}}';
@@ -12,11 +12,11 @@ const teamId = '{{team_id}}';
 const headers = {
   'accept': '*/*',
   'parsable-custom-touchstone': 'ramy-test',
-  'Authorization': 'Bearer {{token_key}}' // Replace 'xxxxxx' with your token
+  'Authorization': 'Bearer {{token_key}}' // Replace 'xxxxxx' with your token key 
 };
 
 // Path to your file
-const filePath = '/users/ramy.kader/Documents/Jobs/cancel_jobID.csv';
+const filePath = '/users/UserName/Documents/Jobs/File_name.csv';
 
 // Creating a readable stream and interface to read file line by line
 const readInterface = readline.createInterface({
@@ -31,11 +31,11 @@ let index = 0;
 readInterface.on('line', function(line) {
   // API Call
   const jobId = line.trim();
-  const url = `${baseUrl}${teamId}/jobs/${jobId}/cancel`;
+  const url = `${baseUrl}${teamId}/jobs/${jobId}/cancel`; // This is the main API call pulling from the URL const baseUrl. 
 
   axios.delete(url, { headers: headers })
     .then(response => {
-      console.log(`Request ${index + 1} for team ID ${teamId} and job ID ${jobId} completed successfully.`);
+      console.log(`Request ${index + 1} for team ID ${teamId} and job ID ${jobId} completed successfully.`);  // Standard successful message. 
       index += 1;
     })
     .catch(error => {
